@@ -1,0 +1,79 @@
+# Unity .gitignore
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+
+# Unity cache/artefacts
+[Aa]rtifactDB*/
+[Bb]urstCache/
+[Ss]criptAssemblies/
+[Ss]earch/
+[Ss]tateCache/
+[Ss]haderCache/
+[Uu]IElements/
+[Tt]emp[Aa]rtifacts/
+
+# Crash reports
+[Cc]rash[Rr]eports/
+
+# IDEs and editors
+.vs/
+.idea/
+*.code-workspace
+
+# Visual Studio
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Logs
+*.log
+
+# Builds
+*.apk
+*.aab
+*.ipa
+*.app
+*.exe
+*.dll
+*.appx
+*.appxbundle
+*.msixbundle
+
+# Misc
+*.tmp
+*.bak
+*.unityproj
+*.swp
+*.zip
+*.7z
+*.rar
+
+# Do not ignore asset metadata
+!Assets/**/*.meta
+
+# Keep essential project data
+!ProjectSettings/
+!Assets/
+!Packages/
