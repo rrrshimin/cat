@@ -5,6 +5,7 @@ public class CatPlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float runSpeed = 5f;
     [SerializeField] private float moveAcceleration = 12f;
     [SerializeField] private float moveDeceleration = 16f;
     [SerializeField] private float rotationSpeed = 10f;
@@ -21,6 +22,7 @@ public class CatPlayerController : MonoBehaviour
     [SerializeField] private float visualYawOffset = 0f;
 
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+    private static readonly int IsRunning = Animator.StringToHash("IsRunning");
 
     private Vector3 currentVelocity;
 
@@ -45,8 +47,11 @@ public class CatPlayerController : MonoBehaviour
     private void Update()
     {
         Vector2 input = ReadMoveInput();
+        bool hasMoveInput = input.sqrMagnitude > 0.0001f;
+        bool runHeld = ReadRunInput();
         Vector3 moveDirection = GetMoveDirection(input);
-        Vector3 targetVelocity = moveDirection * moveSpeed;
+        float targetSpeed = runHeld ? runSpeed : moveSpeed;
+        Vector3 targetVelocity = moveDirection * targetSpeed;
 
         float accel = targetVelocity.sqrMagnitude > 0.001f ? moveAcceleration : moveDeceleration;
         currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, accel * Time.deltaTime);
@@ -54,9 +59,11 @@ public class CatPlayerController : MonoBehaviour
         transform.position += currentVelocity * Time.deltaTime;
 
         bool isMoving = currentVelocity.sqrMagnitude > walkThreshold * walkThreshold;
+        bool isRunning = hasMoveInput && runHeld;
         if (animator != null)
         {
             animator.SetBool(IsWalking, isMoving);
+            animator.SetBool(IsRunning, isRunning);
         }
 
         if (!isMoving || visualModel == null)
@@ -127,5 +134,15 @@ public class CatPlayerController : MonoBehaviour
         }
 
         return new Vector2(horizontal, vertical).normalized;
+    }
+
+    private bool ReadRunInput()
+    {
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        return Keyboard.current.leftShiftKey.isPressed || Keyboard.current.rightShiftKey.isPressed;
     }
 }
